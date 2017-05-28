@@ -5,8 +5,7 @@
 
 #define MINS 60
 int main(int argc,char *argv[]) {
-    printf("%d",argc);
-    if (argc < 1)
+    if (argc < 2)
     {
 	printf("the arguments should be {Duration} {Text to appear}\n");
 	return 0;
