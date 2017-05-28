@@ -19,7 +19,6 @@ int main(int argc,char *argv[]) {
     if (argc < 4)
     {
 	printf("The arguments should be  {Period Time in mins}   {Title to appear}  {Text to appear}\n");
-	printf("Defailt period time is 10 mins\n");
     return 0;
     }
     if (argc > 4)
