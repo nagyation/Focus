@@ -5,6 +5,6 @@ A very simple program that notifies you of a certain sentence every amount of ti
 **Make sure you already have libnotify** <br>
 -> git clone https://github.com/nagyation/Focus <br>
 -> cd Focus<br>
--> gcc -o focus 'pkg-config --cflags --libs libnotify' focus.c
+-> gcc -o focus 'pkg-config --cflags --libs libnotify' focus.c <br>
 -> ./focus {duration} {text to be notified with}<br>
 -> ex: ./focus 1 "Hello world" &<br>
