@@ -13,14 +13,13 @@ int main(int argc,char *argv[]) {
     int time = atoi(argv[1]) * MINS;
     char *text ;
     text= argv[2] ? argv[2] : "Focus!";
-    notify_init ("Remember!");
-    while(1){
-	
-	NotifyNotification * Hello = notify_notification_new ("Remember", text, "dialog-information");
-	notify_notification_show (Hello, NULL);
-	g_object_unref(G_OBJECT(Hello));
-	
+       while(1){
+	notify_init ("Remember!");
+	NotifyNotification * notification = notify_notification_new ("Remember", text, "dialog-information");
+	notify_notification_show (notification, NULL);
+	g_object_unref(G_OBJECT(notification));
+	notify_uninit();	
 	sleep(time);
     }
-    notify_uninit();
+   
 }
