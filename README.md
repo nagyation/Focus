@@ -1,5 +1,5 @@
 # Focus
-A very simple program that notifies you of a certain sentence every amount of time, it helps me to keep focus <br> <br>
+A very simple program reminds you -by a notification- of what you are currently doing periodically to keep focus <br> <br>
 
 ## Build and Use:
 **Make sure you already have libnotify** <br>
