@@ -6,5 +6,5 @@ A very simple program that notifies you of a certain sentence every amount of ti
 -> git clone https://github.com/nagyation/Focus <br>
 -> cd Focus<br>
 -> gcc -o focus \`pkg-config --cflags --libs libnotify\` focus.c <br>
--> ./focus {duration} {text to be notified with}<br>
--> ex: ./focus 1 "Hello world" &<br>
+-> ./focus {duration} {title} {text to be notified with}<br>
+-> ex: ./focus 1 "Hello world" "Hey" &<br>
