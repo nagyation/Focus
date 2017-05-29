@@ -11,25 +11,29 @@
 #define APP_NAME "Focus"
 
 int main(int argc,char *argv[]) {
-    
+
+    if (argc < 2)
+    {
+	printf("This is the default mode\n");
+	printf("The arguments should be  {Period Time in mins}   {Title to appear}  {Text to appear}\n");
+	printf("The default Period is 10 mins\n");
+    }
+
     int time = 10 * MINS;
     char *body= "Focus!";
     char *title = "Remember!";
-
-    if (argc < 4)
+    int i;
+   
+    for(i = 1;i < argc ; i++)
     {
-	printf("The arguments should be  {Period Time in mins}   {Title to appear}  {Text to appear}\n");
-    return 0;
+	if(!strncmp(argv[i],"-t",2))
+	    title = CMP_EMP(argv[i+1],"Remember!");
+	else if (!strncmp(argv[i],"-b",2))
+	    body = CMP_EMP(argv[i+1], "Focus!");
+	else if (!strncmp(argv[i],"-p",2))
+	    time = atoi(argv[i+1])*MINS;
     }
-    if (argc > 4)
-    {
-	printf("Wrong numbers of arguments\n");
-    return 0;
-    }
-	time = atoi(argv[1]) *MINS;
-	title = argv[2];
-	body = argv[3];
-
+    
     notify_init (APP_NAME);
     NotifyNotification * notification = notify_notification_new (title, body, "dialog-information");
 
