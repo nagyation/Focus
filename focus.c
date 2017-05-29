@@ -10,20 +10,65 @@
 
 #define APP_NAME "Focus"
 
-int main(int argc,char *argv[]) {
+static void daemonize(void)
+{
+    pid_t pid, sid;
 
-    if (argc < 2)
-    {
-	printf("This is the default mode\n");
-	printf("The arguments should be  {Period Time in mins}   {Title to appear}  {Text to appear}\n");
-	printf("The default Period is 10 mins\n");
+    /* already a daemon */
+    if ( getppid() == 1 ) return;
+
+    /* Fork off the parent process */
+    pid = fork();
+    if (pid < 0) {
+        exit(EXIT_FAILURE);
+    }
+    /* If we got a good PID, then we can exit the parent process. */
+    if (pid > 0) {
+        exit(EXIT_SUCCESS);
     }
 
+    /* At this point we are executing as the child process */
+
+    /* Change the file mode mask */
+    umask(0);
+
+    /* Create a new SID for the child process */
+    sid = setsid();
+    if (sid < 0) {
+        exit(EXIT_FAILURE);
+    }
+
+    /* Change the current working directory.  This prevents the current
+       directory from being locked; hence not being able to remove it. */
+    if ((chdir("/")) < 0) {
+        exit(EXIT_FAILURE);
+    }
+
+    /* Redirect standard files to /dev/null */
+    freopen( "/dev/null", "r", stdin);
+    freopen( "/dev/null", "w", stdout);
+    freopen( "/dev/null", "w", stderr);
+}
+
+int main(int argc,char *argv[]) {
+    fflush(stdout); // clearing the buffer
+
+    printf("This is A daeomon process\n");
+    if (argc < 2) // checking if no arguments sent
+    {
+	printf("This is the default mode\n");
+	printf("The arguments should be  -p {Period Time in mins}  -t  {Title to appear} -b  {Text to appear}\n");
+	printf("The default Period is 10 mins\n");
+    }
+  
     int time = 10 * MINS;
     char *body= "Focus!";
     char *title = "Remember!";
     int i;
-   
+  
+
+    daemonize();
+    //checking for argumets
     for(i = 1;i < argc ; i++)
     {
 	if(!strncmp(argv[i],"-t",2))
