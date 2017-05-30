@@ -8,4 +8,4 @@ A very simple program that runs as a daemon reminds you -by a notification- of w
 -> make <br>
 ->./focus -h for help <br>
 -> ./focus -p {period} -d {duration of the run} -t {title} -b {text to be notified with}<br>
--> ex: ./focus -p 1 -t "Hello world" -b "Hey" &<br>
+-> ex: ./focus -p 1 -t "Hello world" -b "Hey"<br>
