@@ -1,7 +1,7 @@
 CC=gcc
-CFLAGS= -c -Wall `pkg-config --cflags libnotify `
-LDFLAGS= `pkg-config  --libs libnotify `
-SOURCES= focus.c 
+CFLAGS= -c -Wall `pkg-config --cflags libnotify gtk+-2.0`
+LDFLAGS= -pthread `pkg-config  --libs libnotify gtk+-2.0`
+SOURCES= focustray.c focus.c
 OBJECTS=$(SOURCES:.c=.o)
 EXECUTABLE=focus
 
