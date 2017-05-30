@@ -5,7 +5,7 @@
 #include <string.h>
 #include <pthread.h>
 
-#include "focustray.h"
+#include "focustrayg.h"
 
 #define CMP_ZERO(A,B)   A? A:B
 #define CMP_STR(A,B)  !strncmp(A,B,2)
