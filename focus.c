@@ -3,9 +3,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <pthread.h>
 
-#include "focustrayg.h"
+#include "focustray.h"
 
 #define CMP_ZERO(A,B)   A? A:B
 #define CMP_STR(A,B)  !strncmp(A,B,2)
@@ -95,7 +97,7 @@ void system_tray_callback(int action)
 
 }
 
-void start_timer(void *n){
+static void *start_timer(void *n){
     int counter =0;
 
     while(1){
@@ -106,8 +108,9 @@ void start_timer(void *n){
 	    break;
 	counter ++;
     }
-
+    return 0;
 }
+
 int main(int argc,char *argv[]) {
     fflush(stdout); // clearing the buffer
 
@@ -120,7 +123,6 @@ int main(int argc,char *argv[]) {
   
     
     int i;
-    GtkStatusIcon *tray_icon;
 	
     //checking for argumets
     for(i = 1;i < argc ; i++)
@@ -130,7 +132,7 @@ int main(int argc,char *argv[]) {
 	else if (CMP_STR(argv[i],"-b"))
 	    body = i+1 < argc ? argv[i+1] : body;
 	else if (CMP_STR(argv[i],"-p"))
-	    period = CMP_ZERO(atoi(argv[i+1])*MINS,time);
+	    period = CMP_ZERO(atoi(argv[i+1])*MINS,period);
 	else if (CMP_STR(argv[i],"-d"))
 	    duration = CMP_ZERO(atoi(argv[i+1])*HOURS,duration) ;
 	else if (CMP_STR(argv[i],"-h"))
@@ -145,23 +147,21 @@ int main(int argc,char *argv[]) {
     //recieve Terminate signals from kill
     signal(SIGINT, signal_callback);
     signal(SIGTERM, signal_callback);
-
-
-    //add to system_tray
-    gtk_init(&argc, &argv);
-    tray_icon = create_tray_icon(system_tray_callback);
     
 
     //Intializing the notification
     notify_init (APP_NAME);
 
     pthread_t timer;
-    int iret1 = pthread_create( &timer, NULL,start_timer,NULL );
+    int iret1 = pthread_create( &timer, NULL,&start_timer,NULL );
      if(iret1)
      {
          close_program(EXIT_FAILURE);
      }
-
+     
+     //add to system_tray
+    gtk_init(&argc, &argv);
+    create_tray_icon(system_tray_callback);
+  
     gtk_main();
-    close_program(EXIT_SUCCESS);
 }
