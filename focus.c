@@ -4,11 +4,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define CMP_EMP(A,B)   A? A:B
+#define CMP_ZERO(A,B)   A? A:B
+#define CMP_STR(A,B)  !strncmp(A,B,2)
 #define MINS 60
 #define HOURS 60*MINS
 
 #define APP_NAME "Focus"
+
+NotifyNotification * notification;
 
 static void daemonize(void)
 {
@@ -60,6 +63,22 @@ void help_screen(){
 	   "-h to show this screen\n");
 }
 
+
+void close_program(int signal){
+    notification = notify_notification_new ("I'm Closing - Focus", "Hope you've done well", "dialog-information");
+    notify_notification_show (notification, NULL);
+    g_object_unref(G_OBJECT(notification));
+    notify_uninit();	
+    exit(signal);
+}
+
+
+void signal_callback(int signal)
+{
+    close_program(signal);
+}
+
+
 int main(int argc,char *argv[]) {
     fflush(stdout); // clearing the buffer
 
@@ -80,26 +99,33 @@ int main(int argc,char *argv[]) {
     //checking for argumets
     for(i = 1;i < argc ; i++)
     {
-	if(!strncmp(argv[i],"-t",2))
-	    title = CMP_EMP(argv[i+1],"Remember!");
-	else if (!strncmp(argv[i],"-b",2))
-	    body = CMP_EMP(argv[i+1], "Focus!");
-	else if (!strncmp(argv[i],"-p",2))
-	    time = CMP_EMP(atoi(argv[i+1])*MINS,10 *MINS);
-	else if (!strncmp(argv[i],"-d",2))
-	    duration = CMP_EMP(atoi(argv[i+1]),2) ;
-	else if (!strncmp(argv[i],"-h",2))
+	if(CMP_STR(argv[i],"-t"))
+	    title = i+1 < argc ? argv[i+1] : title;
+	else if (CMP_STR(argv[i],"-b"))
+	    body = i+1 < argc ? argv[i+1] : body;
+	else if (CMP_STR(argv[i],"-p"))
+	    time = CMP_ZERO(atoi(argv[i+1])*MINS,time);
+	else if (CMP_STR(argv[i],"-d"))
+	    duration = CMP_ZERO(atoi(argv[i+1])*HOURS,duration) ;
+	else if (CMP_STR(argv[i],"-h"))
 	{
 	    help_screen();
 	    exit(EXIT_SUCCESS);
 	}
     }
 
-    daemonize();    
-   
+    daemonize();
+
+    //recieve Terminate signals from kill
+    signal(SIGINT, signal_callback);
+    signal(SIGTERM, signal_callback);
+
+    //Intializing the notification
     notify_init (APP_NAME);
-    NotifyNotification * notification = notify_notification_new (title, body, "dialog-information");
+    notification = notify_notification_new (title, body, "dialog-information");
+
     int counter =0;
+
     while(1){
 	notify_notification_show (notification, NULL);
 	sleep(time);
@@ -107,9 +133,6 @@ int main(int argc,char *argv[]) {
 	    break;
 	counter ++;
     }
-    notification = notify_notification_new ("I'm Closing - Focus", "Hope you've done well", "dialog-information");
-    notify_notification_show (notification, NULL);
-    g_object_unref(G_OBJECT(notification));
-    notify_uninit();	
-    exit(EXIT_SUCCESS);
+    
+    close_program(EXIT_SUCCESS);
 }
