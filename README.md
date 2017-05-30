@@ -3,10 +3,24 @@ A very simple program that runs as a daemon reminds you -by a notification- of w
 
 ## Build:
 **Make sure you already have libnotify** <br>
-$ git clone https://github.com/nagyation/Focus <br>
-$ cd Focus<br>
-$ make <br>
-$ sudo make install <br>
+you can install it by: <br>
+**Ubuntu:** <br>
+`sudo apt-get install libnotify-dev`
+
+
+
+**Arch:** <br>
+ `sudo pacman -S libnotify` 
+ <br><br>
+
+**Focus build** <br>
+`$ git clone https://github.com/nagyation/Focus`
+
+`$ cd Focus `
+
+`$ make `
+
+`$ sudo make install `
 
 ## Use:
 -p {period in mins} : time between each notification <br>
@@ -19,4 +33,4 @@ focus -h    For help <br>
 focus -p {period} -d {duration of the run} -t {title} -b {text to be notified with}<br>
 
 ### Example:
-focus -p 10 -d 2 -t "Hello world" -b "Hey"<br>
+`focus -p 10 -d 2 -t "Hello world" -b "Hey"`<br>
