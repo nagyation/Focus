@@ -1,6 +1,6 @@
 CC=gcc
-CFLAGS= -c -Wall `pkg-config --cflags libnotify`
-LDFLAGS= `pkg-config  --libs libnotify`
+CFLAGS= -c -Wall `pkg-config --cflags libnotify `
+LDFLAGS= `pkg-config  --libs libnotify `
 SOURCES= focus.c 
 OBJECTS=$(SOURCES:.c=.o)
 EXECUTABLE=focus

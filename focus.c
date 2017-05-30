@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 #define CMP_EMP(A,B)   A? A:B
 #define MINS 60
 
@@ -48,7 +47,9 @@ static void daemonize(void)
     freopen( "/dev/null", "r", stdin);
     freopen( "/dev/null", "w", stdout);
     freopen( "/dev/null", "w", stderr);
+
 }
+
 
 int main(int argc,char *argv[]) {
     fflush(stdout); // clearing the buffer
@@ -67,7 +68,8 @@ int main(int argc,char *argv[]) {
     int i;
   
 
-    daemonize();
+    daemonize();    
+ 
     //checking for argumets
     for(i = 1;i < argc ; i++)
     {
