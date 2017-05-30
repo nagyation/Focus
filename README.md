@@ -3,9 +3,10 @@ A very simple program that runs as a daemon reminds you -by a notification- of w
 
 ## Build:
 **Make sure you already have libnotify** <br>
--> git clone https://github.com/nagyation/Focus <br>
--> cd Focus<br>
--> make <br>
+$ git clone https://github.com/nagyation/Focus <br>
+$ cd Focus<br>
+$ make <br>
+$ sudo make install <br>
 
 ## Use:
 -p {period in mins} : time between each notification <br>
@@ -14,8 +15,8 @@ A very simple program that runs as a daemon reminds you -by a notification- of w
 -b {body} : the text body of the notification <br>
 -h {help} : show arguments <br>
 
-./focus -h for help <br>
-./focus -p {period} -d {duration of the run} -t {title} -b {text to be notified with}<br>
+focus -h    For help <br>
+focus -p {period} -d {duration of the run} -t {title} -b {text to be notified with}<br>
 
 ### Example:
-./focus -p 10 -d 2 -t "Hello world" -b "Hey"<br>
+focus -p 10 -d 2 -t "Hello world" -b "Hey"<br>

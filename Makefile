@@ -5,6 +5,10 @@ SOURCES= focus.c
 OBJECTS=$(SOURCES:.c=.o)
 EXECUTABLE=focus
 
+ifeq ($(PREFIX),)
+    PREFIX := /usr/local
+endif
+
 all: $(SOURCES) $(EXECUTABLE)
     
 $(EXECUTABLE): $(OBJECTS) 
@@ -12,5 +16,10 @@ $(EXECUTABLE): $(OBJECTS)
 
 .c.o:
 	$(CC) $(CFLAGS) $< -o $@
+
+install: all
+	install -d $(DESTDIR)$(PREFIX)/bin/
+	install -t  $(DESTDIR)$(PREFIX)/bin/ focus
+
 clean:
 	rm $(OBJECTS) $(EXECUTABLE)
