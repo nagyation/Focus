@@ -6,6 +6,7 @@
 
 #define CMP_EMP(A,B)   A? A:B
 #define MINS 60
+#define HOURS 60*MINS
 
 #define APP_NAME "Focus"
 
@@ -50,6 +51,14 @@ static void daemonize(void)
 
 }
 
+void help_screen(){
+    printf("The arguments available are:\n");
+    printf("-p {Period Time in mins} default is 10 mins\n"\
+	   "-d {Duration in hours for the program to run} default is 2 hours\n"	\
+	   "-t  {Title of notification}\n"			\
+	   "-b  {Text body}\n"\
+	   "-h to show this screen\n");
+}
 
 int main(int argc,char *argv[]) {
     fflush(stdout); // clearing the buffer
@@ -58,17 +67,15 @@ int main(int argc,char *argv[]) {
     if (argc < 2) // checking if no arguments sent
     {
 	printf("This is the default mode\n");
-	printf("The arguments should be  -p {Period Time in mins}  -t  {Title to appear} -b  {Text to appear}\n");
-	printf("The default Period is 10 mins\n");
+	help_screen();
     }
   
     int time = 10 * MINS;
+    int duration = 2 *HOURS;
     char *body= "Focus!";
     char *title = "Remember!";
     int i;
   
-
-    daemonize();    
  
     //checking for argumets
     for(i = 1;i < argc ; i++)
@@ -78,18 +85,31 @@ int main(int argc,char *argv[]) {
 	else if (!strncmp(argv[i],"-b",2))
 	    body = CMP_EMP(argv[i+1], "Focus!");
 	else if (!strncmp(argv[i],"-p",2))
-	    time = atoi(argv[i+1])*MINS;
+	    time = CMP_EMP(atoi(argv[i+1])*MINS,10 *MINS);
+	else if (!strncmp(argv[i],"-d",2))
+	    duration = CMP_EMP(atoi(argv[i+1]),2) ;
+	else if (!strncmp(argv[i],"-h",2))
+	{
+	    help_screen();
+	    exit(EXIT_SUCCESS);
+	}
     }
-    
+
+    daemonize();    
+   
     notify_init (APP_NAME);
     NotifyNotification * notification = notify_notification_new (title, body, "dialog-information");
-
+    int counter =0;
     while(1){
 	notify_notification_show (notification, NULL);
 	sleep(time);
+	if((counter * time)/MINS >= duration/HOURS)
+	    break;
+	counter ++;
     }
-
+    notification = notify_notification_new ("I'm Closing - Focus", "Hope you've done well", "dialog-information");
+    notify_notification_show (notification, NULL);
     g_object_unref(G_OBJECT(notification));
     notify_uninit();	
- 
+    exit(EXIT_SUCCESS);
 }
