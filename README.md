@@ -4,13 +4,18 @@ A very simple program that runs as a daemon reminds you -by a notification- of w
 ## Build:
 **Make sure you already have gtk+2 and libnotify** <br>
 you can install it by: <br>
+
+**Arch:** <br>
+For arch can be installed from AUR
+https://aur.archlinux.org/packages/focus-git/
+
+ <br><br>
+
 **Ubuntu:** <br>
 `sudo apt-get install libnotify-dev libgtk-2-dev`
 
 
-**Arch:** <br>
-`sudo pacman -S gtk2 libnotify` 
- <br><br>
+
 
 **Focus build** <br>
 `$ git clone https://github.com/nagyation/Focus`
