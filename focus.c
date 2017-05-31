@@ -12,13 +12,13 @@
 #define CMP_ZERO(A,B)   A? A:B
 #define CMP_STR(A,B)  !strncmp(A,B,2)
 #define MINS 60
-#define HOURS 60*MINS
+#define HOURS 60 *MINS
 
 #define APP_NAME "Focus"
 
 NotifyNotification * notification;
-int period = 10 * MINS;
-int duration = 2 *HOURS;
+unsigned int period = 10 * MINS;
+unsigned int duration = 2 *HOURS;
 char *body= "Focus!";
 char *title = "Remember!";
 
@@ -104,8 +104,8 @@ static void *start_timer(void *n){
 	notification = notify_notification_new (title, body, "dialog-information");
 	notify_notification_show (notification, NULL);
 	sleep(period);
-	if((counter * period)/MINS >= duration/HOURS)
-	    break;
+	if((counter * period) >= duration)
+	    close_program(EXIT_SUCCESS);
 	counter ++;
     }
     return 0;
@@ -141,7 +141,7 @@ int main(int argc,char *argv[]) {
 	    exit(EXIT_SUCCESS);
 	}
     }
-
+    printf("%d %d\n",duration,period);
     daemonize();
 
     //recieve Terminate signals from kill
