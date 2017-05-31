@@ -141,7 +141,7 @@ int main(int argc,char *argv[]) {
 	    exit(EXIT_SUCCESS);
 	}
     }
-    printf("%d %d\n",duration,period);
+    
     daemonize();
 
     //recieve Terminate signals from kill
