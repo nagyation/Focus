@@ -5,7 +5,7 @@ A very simple program that runs as a daemon reminds you -by a notification- of w
 **Make sure you already have gtk+2 and libnotify** <br>
 you can install it by: <br>
 **Ubuntu:** <br>
-`sudo apt-get install libnotify-dev gtk2.0`
+`sudo apt-get install libnotify-dev libgtk2.0-dev`
 
 
 **Arch:** <br>
