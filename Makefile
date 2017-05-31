@@ -19,7 +19,7 @@ $(EXECUTABLE): $(OBJECTS)
 
 install: all
 	install -d $(DESTDIR)$(PREFIX)/bin/
-	install -d $(DESTDIR)$(PREFIX)/share/focus/	
+	install -d $(DESTDIR)$(PREFIX)/share/	
 	install -d $(DESTDIR)$(PREFIX)/share/focus/
 	install -t $(DESTDIR)$(PREFIX)/share/focus resources/focus_icon.png
 	install -t  $(DESTDIR)$(PREFIX)/bin/ focus
