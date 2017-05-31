@@ -1,6 +1,6 @@
 CC=gcc
-CFLAGS= -c -Wall `pkg-config --cflags libnotify gtk+-3.0`
-LDFLAGS= -pthread `pkg-config  --libs libnotify gtk+-3.0`
+CFLAGS= -c -Wall `pkg-config --cflags libnotify gtk+-2.0`
+LDFLAGS= -pthread `pkg-config  --libs libnotify gtk+-2.0`
 SOURCES= focustray.c focus.c
 OBJECTS=$(SOURCES:.c=.o)
 EXECUTABLE=focus
@@ -12,10 +12,10 @@ endif
 all: $(SOURCES) $(EXECUTABLE)
     
 $(EXECUTABLE): $(OBJECTS) 
-	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
+	$(CC) $(OBJECTS) $(LDFLAGS)  -o $@
 
 .c.o:
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $< $(CFLAGS)  -o $@
 
 install: all
 	install -d $(DESTDIR)$(PREFIX)/bin/
