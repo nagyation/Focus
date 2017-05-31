@@ -2,14 +2,17 @@
 A very simple program that runs as a daemon reminds you -by a notification- of what you are currently doing periodically to keep focus <br> <br>
 
 ## Build:
-**Make sure you already have libnotify** <br>
+**Make sure you already have gtk+2 and libnotify** <br>
 you can install it by: <br>
 **Ubuntu:** <br>
 `sudo apt-get install libnotify-dev`
 
+`sudo apt-get install gtk2.0`
 
 
 **Arch:** <br>
+`sudo pacman -S gtk2`
+
  `sudo pacman -S libnotify` 
  <br><br>
 
