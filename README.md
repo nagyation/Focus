@@ -5,7 +5,7 @@ A very simple program that runs as a daemon reminds you -by a notification- of w
 **Make sure you already have gtk+3 and libnotify** <br>
 you can install it by: <br>
 **Ubuntu:** <br>
-`sudo apt-get install libnotify-dev libgtk3.0-dev`
+`sudo apt-get install libnotify-dev libgtk-3-dev`
 
 
 **Arch:** <br>
