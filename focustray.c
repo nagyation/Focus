@@ -43,8 +43,8 @@ static GtkStatusIcon *intiate_tray_icon() {
     tray_icon = gtk_status_icon_new_from_file( "/usr/local/share/focus/focus_icon.png");
     gtk_status_icon_set_from_icon_name(tray_icon, 
 				   GTK_STOCK_MEDIA_STOP);
-    gtk_status_icon_set_tooltip(tray_icon, 
-                                    "Focus!");
+//    gtk_status_icon_set_tooltip(tray_icon, 
+//                                    "Focus!");
     gtk_status_icon_set_visible(tray_icon, TRUE);
 
     g_signal_connect(G_OBJECT(tray_icon), "activate", 
