@@ -12,7 +12,7 @@ https://aur.archlinux.org/packages/focus-git/
  <br><br>
 
 **Ubuntu:** <br>
-`sudo apt-get install libnotify-dev libgtk-2-dev`
+`sudo apt-get install libnotify-dev libgtk2.0-dev`
 
 
 
