@@ -5,7 +5,8 @@
 void (*onclick_callback) (int);
 
 GtkWidget *menu;
-GtkWidget *quit_item, *about_item, *clickme_item;
+GtkWidget *quit_item, *about_item, *clickme_item, *pause_item;
+u_int8_t is_pause = 0;
 
 static void on_item_clicked(GtkWidget *item,
 			    gpointer user_data)
@@ -28,6 +29,20 @@ static void on_item_clicked(GtkWidget *item,
 	onclick_callback(QUIT);
     else if(item == clickme_item)
 	onclick_callback(CLICKED);
+    else if(item == pause_item)
+    {
+	is_pause = !is_pause;
+	if(is_pause)
+	{
+	    gtk_menu_item_set_label(pause_item,"Unpause");
+	    onclick_callback(PAUSE);
+
+	}else
+	{
+	    gtk_menu_item_set_label(pause_item,"Pause");
+	    onclick_callback(UNPAUSE);
+	}
+    }
 }
 
 
@@ -35,13 +50,17 @@ void create_menu(){
    
     menu = gtk_menu_new();
 
-    about_item = gtk_menu_item_new_with_label ("About");
-    gtk_menu_shell_append (GTK_MENU_SHELL (menu), about_item);
-    g_signal_connect(about_item, "activate", G_CALLBACK(on_item_clicked), NULL);
+    pause_item = gtk_menu_item_new_with_label ("Pause");
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), pause_item);
+    g_signal_connect(pause_item, "activate", G_CALLBACK(on_item_clicked), NULL);
 
     clickme_item = gtk_menu_item_new_with_label ("Click me!");
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), clickme_item);
     g_signal_connect(clickme_item, "activate", G_CALLBACK(on_item_clicked), NULL);
+    
+    about_item = gtk_menu_item_new_with_label ("About");
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), about_item);
+    g_signal_connect(about_item, "activate", G_CALLBACK(on_item_clicked), NULL);
     
     quit_item = gtk_menu_item_new_with_label ("Quit");
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), quit_item);
