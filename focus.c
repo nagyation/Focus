@@ -75,7 +75,7 @@ void help_screen(){
 
 
 void close_program(int signal){
-    notification = notify_notification_new ("I'm Closing - Focus", "Hope you've done well", "dialog-information");
+    notification = notify_notification_new ("I'm Closing - Focus", "Hope you've done well", APP_LOGO);
     notify_notification_show (notification, NULL);
     g_object_unref(G_OBJECT(notification));
     notify_uninit();	
@@ -92,7 +92,7 @@ void system_tray_callback(int action)
     if (action == QUIT)
 	close_program(EXIT_SUCCESS);
     
-    notification = notify_notification_new ("Stop Clicking on me it hurts :\\ ", "Focus!", "dialog-information");
+    notification = notify_notification_new ("Stop Clicking on me it hurts :\\ ", "Focus!", APP_LOGO);
     notify_notification_show (notification, NULL);
 
 }
@@ -101,7 +101,7 @@ static void *start_timer(void *n){
     int counter =0;
 
     while(1){
-	notification = notify_notification_new (title, body, "dialog-information");
+	notification = notify_notification_new (title, body, APP_LOGO);
 	notify_notification_show (notification, NULL);
 	sleep(period);
 	if((counter * period) >= duration)
