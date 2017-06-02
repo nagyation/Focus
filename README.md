@@ -2,15 +2,20 @@
 A very simple program that runs as a daemon reminds you -by a notification- of what you are currently doing periodically to keep focus <br> <br>
 
 ## Build:
-**Make sure you already have gtk+3 and libnotify** <br>
+**Make sure you already have gtk+2 and libnotify** <br>
 you can install it by: <br>
-**Ubuntu:** <br>
-`sudo apt-get install libnotify-dev libgtk-3-dev`
-
 
 **Arch:** <br>
-`sudo pacman -S gtk2 libnotify` 
+For arch can be installed from AUR
+https://aur.archlinux.org/packages/focus-git/
+
  <br><br>
+
+**Ubuntu:** <br>
+`sudo apt-get install libnotify-dev libgtk2.0-dev`
+
+
+
 
 **Focus build** <br>
 `$ git clone https://github.com/nagyation/Focus`
