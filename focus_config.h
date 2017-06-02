@@ -1,7 +1,7 @@
 #ifndef __FOCUS_CONFIG__
 #define __FOCUS_CONFIG__
 
-#define APP_LOGO "/usr/local/share/focus/focus_icon.svg"
+#define APP_LOGO "focus-icon"
 #define APP_NAME "Focus"
 #define AUTHOR_NAME "Mahmoud Nagy"
 #define AUTHOR_EMAIL "<mnagy1312@gmail.com>"

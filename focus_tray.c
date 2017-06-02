@@ -15,7 +15,7 @@ static void on_item_clicked(GtkWidget *item,
 	GStrv authors[] = {AUTHOR_NAME " " AUTHOR_EMAIL,}; 
 	gtk_show_about_dialog (NULL,
 			       "program-name", APP_NAME,
-			       "logo-icon-name","focus-icon",
+			       "logo-icon-name",APP_LOGO,
 			       "license-type",GTK_LICENSE_GPL_2_0,
 			       "authors",authors,
 			       "copyright",COPYRIGHT,
@@ -56,7 +56,7 @@ static void intiate_tray_icon() {
     AppIndicator *indicator;
     
     indicator = app_indicator_new (APP_NAME,
-				   "focus-icon",
+				   APP_LOGO,
                                    APP_INDICATOR_CATEGORY_APPLICATION_STATUS);
     app_indicator_set_status (indicator, APP_INDICATOR_STATUS_ACTIVE);
     create_menu();

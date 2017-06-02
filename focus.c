@@ -153,6 +153,7 @@ int main(int argc,char *argv[]) {
     //Intializing the notification
    
     gtk_init(&argc, &argv);
+    gtk_window_set_default_icon_name (APP_LOGO);
     notify_init (APP_NAME);
 
     pthread_t timer;
