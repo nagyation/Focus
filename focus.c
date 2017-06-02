@@ -7,20 +7,21 @@
 #include <sys/stat.h>
 #include <pthread.h>
 
-#include "focustray.h"
+#include "focus_tray.h"
+#include "focus_config.h"
 
 #define CMP_ZERO(A,B)   A? A:B
 #define CMP_STR(A,B)  !strncmp(A,B,2)
 #define MINS 60
-#define HOURS 60 *MINS
+#define HOURS 60 * MINS
 
-#define APP_NAME "Focus"
 
 NotifyNotification * notification;
 unsigned int period = 10 * MINS;
-unsigned int duration = 2 *HOURS;
+unsigned int duration = 2 * HOURS;
 char *body= "Focus!";
 char *title = "Remember!";
+
 
 static void daemonize(void)
 {
@@ -81,7 +82,6 @@ void close_program(int signal){
     exit(signal);
 }
 
-
 void signal_callback(int signal)
 {
     close_program(signal);
@@ -132,9 +132,9 @@ int main(int argc,char *argv[]) {
 	else if (CMP_STR(argv[i],"-b"))
 	    body = i+1 < argc ? argv[i+1] : body;
 	else if (CMP_STR(argv[i],"-p"))
-	    period = CMP_ZERO(atoi(argv[i+1])*MINS,period);
+	    period = CMP_ZERO(atoi(argv[i+1]) * MINS,period);
 	else if (CMP_STR(argv[i],"-d"))
-	    duration = CMP_ZERO(atoi(argv[i+1])*HOURS,duration) ;
+	    duration = CMP_ZERO(atoi(argv[i+1]) * HOURS,duration) ;
 	else if (CMP_STR(argv[i],"-h"))
 	{
 	    help_screen();
@@ -142,6 +142,7 @@ int main(int argc,char *argv[]) {
 	}
     }
     
+
     daemonize();
 
     //recieve Terminate signals from kill
@@ -150,6 +151,8 @@ int main(int argc,char *argv[]) {
     
 
     //Intializing the notification
+   
+    gtk_init(&argc, &argv);
     notify_init (APP_NAME);
 
     pthread_t timer;
@@ -158,10 +161,9 @@ int main(int argc,char *argv[]) {
      {
          close_program(EXIT_FAILURE);
      }
-     
-     //add to system_tray
-    gtk_init(&argc, &argv);
+
     create_tray_icon(system_tray_callback);
-  
+
+    
     gtk_main();
 }
