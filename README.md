@@ -10,7 +10,7 @@ For arch it can be installed from AUR <br>
 https://aur.archlinux.org/packages/focus-git/
 <br>
  
- **Fedora:** 
+ **Fedora:** <br>
 `yum install libnotify-devel libappindicator-gtk3-devel gtk3-devel`
 <br>
 
