@@ -92,7 +92,7 @@ void system_tray_callback(int action)
     if (action == QUIT)
 	close_program(EXIT_SUCCESS);
     
-    notification = notify_notification_new ("Stop Clicking on me it hurts :\\ ", "PS: Right click for menu", "dialog-information");
+    notification = notify_notification_new ("Stop Clicking on me it hurts :\\ ", "Focus!", "dialog-information");
     notify_notification_show (notification, NULL);
 
 }

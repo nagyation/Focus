@@ -21,7 +21,7 @@ static void on_item_clicked(GtkWidget *item,
 			       "copyright",COPYRIGHT,
 			       "comments",COMMENTS,
 			       "website" , WEBSITE,
-			       "website-label","GITHUB",
+			       "website-label","Github",
 			       NULL);
     }
     else if(item == quit_item)
