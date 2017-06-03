@@ -184,7 +184,7 @@ int main(int argc,char *argv[]) {
          close_program(EXIT_FAILURE);
      }
 
-    create_tray_icon(system_tray_callback);
+     create_tray_icon(system_tray_callback);
 
     
     gtk_main();
