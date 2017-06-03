@@ -105,20 +105,20 @@ void signal_callback(int signal)
 
 void system_tray_callback(int action)
 {
-    if (action == QUIT)
+    if (action == TRAY_QUIT)
 	close_program(EXIT_SUCCESS);
-    else if(action == CLICKED)
+    else if(action == TRAY_CLICKED)
     {
 	notification = notify_notification_new ("Stop Clicking on me it hurts :\\ ", "Focus!", APP_LOGO);
 	notify_notification_show (notification, NULL);
     }
-    else if(action == PAUSE)
+    else if(action == TRAY_PAUSE)
     {
 	notification = notify_notification_new ("Okay okay ..", "I'll Pause", APP_LOGO);
 	notify_notification_show (notification, NULL);
 	pthread_cancel(timer);
     }
-    else if(action == UNPAUSE)
+    else if(action == TRAY_UNPAUSE)
     {
 	int ret = pthread_create( &timer, NULL,&start_timer,NULL );
      if(ret)
@@ -153,7 +153,7 @@ int main(int argc,char *argv[]) {
 	else if (CMP_STR(argv[i],"-b"))
 	    body = i+1 < argc ? argv[i+1] : body;
 	else if (CMP_STR(argv[i],"-p"))
-	    period = CMP_ZERO(atoi(argv[i+1]) * MINS,period);
+	    period = CMP_ZERO(atoi(argv[i+1])*MINS,period);
 	else if (CMP_STR(argv[i],"-d"))
 	    duration = atoi(argv[i+1]) * HOURS ;
 	else if (CMP_STR(argv[i],"-h"))
@@ -178,13 +178,13 @@ int main(int argc,char *argv[]) {
     notify_init (APP_NAME);
 
     
-    int iret1 = pthread_create( &timer, NULL,&start_timer,NULL );
-     if(iret1)
+    int iret = pthread_create( &timer, NULL,&start_timer,NULL );
+     if(iret)
      {
          close_program(EXIT_FAILURE);
      }
 
-     create_tray_icon(system_tray_callback);
+     intiate_tray_icon(title,system_tray_callback);
 
     
     gtk_main();
