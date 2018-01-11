@@ -1,4 +1,3 @@
-#include <libnotify/notify.h>
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -6,7 +5,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <pthread.h>
-
 #include "focus_tray.h"
 #include "focus_config.h"
 
@@ -16,7 +14,6 @@
 #define HOURS 60 * MINS
 
 
-NotifyNotification * notification;
 unsigned int period = 10 * MINS;
 unsigned int duration = 0;
 char *body= "Focus!";
@@ -76,18 +73,15 @@ void help_screen(){
 
 
 void close_program(int signal){
-    notification = notify_notification_new ("I'm Closing - Focus", "Hope you've done well", APP_LOGO);
-    notify_notification_show (notification, NULL);
-    g_object_unref(G_OBJECT(notification));
-    notify_uninit();	
+    show_notification ("I'm Closing - Focus", "Hope you've done well");
+    uninit_notification();
     exit(signal);
 }
 
 static void *start_timer(void *n){
 
     while(1){
-	notification = notify_notification_new (title, body, APP_LOGO);
-	notify_notification_show (notification, NULL);
+        show_notification(title,body);
 	sleep(period);
 	if((period_counter * period) >= duration && duration)
 	    close_program(EXIT_SUCCESS);
@@ -109,13 +103,11 @@ void system_tray_callback(int action)
 	close_program(EXIT_SUCCESS);
     else if(action == TRAY_CLICKED)
     {
-	notification = notify_notification_new ("Stop Clicking on me it hurts :\\ ", "Focus!", APP_LOGO);
-	notify_notification_show (notification, NULL);
+	show_notification ("Stop Clicking on me it hurts :\\ ", "Focus!");
     }
     else if(action == TRAY_PAUSE)
     {
-	notification = notify_notification_new ("Okay okay ..", "I'll Pause", APP_LOGO);
-	notify_notification_show (notification, NULL);
+	show_notification("Okay okay ..", "I'll Pause");
 	pthread_cancel(timer);
     }
     else if(action == TRAY_UNPAUSE)
@@ -123,8 +115,7 @@ void system_tray_callback(int action)
 	int ret = pthread_create( &timer, NULL,&start_timer,NULL );
      if(ret)
      {
-	 notification = notify_notification_new ("Sorry", "Couldn't unpause please try again ://", APP_LOGO);
-	notify_notification_show (notification, NULL);
+	 show_notification ("Sorry", "Couldn't unpause please try again ://");
 	pthread_cancel(timer);
      }
     }
@@ -171,11 +162,10 @@ int main(int argc,char *argv[]) {
     signal(SIGTERM, signal_callback);
     
 
-    //Intializing the notification
-   
+    //Intializing gtk
     gtk_init(&argc, &argv);
     gtk_window_set_default_icon_name (APP_LOGO);
-    notify_init (APP_NAME);
+    
 
     
     int iret = pthread_create( &timer, NULL,&start_timer,NULL );
