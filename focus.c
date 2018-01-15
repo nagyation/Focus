@@ -5,14 +5,17 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <pthread.h>
+#include <limits.h>
 #include "focus_tray.h"
 #include "focus_config.h"
+#include "focus_notify.h"
+#include "focus_notifyhandler.h"
 
 #define CMP_ZERO(A,B)   A? A:B
 #define CMP_STR(A,B)  !strncmp(A,B,2)
 #define MINS 60
 #define HOURS 60 * MINS
-
+#define INF INT_MAX
 
 unsigned int period = 10 * MINS;
 unsigned int duration = 0;
@@ -146,14 +149,16 @@ int main(int argc,char *argv[]) {
 	else if (CMP_STR(argv[i],"-p"))
 	    period = CMP_ZERO(atoi(argv[i+1])*MINS,period);
 	else if (CMP_STR(argv[i],"-d"))
-	    duration = atoi(argv[i+1]) * HOURS ;
+	    duration = atoi(argv[i+1]) *HOURS;
 	else if (CMP_STR(argv[i],"-h"))
 	{
 	    help_screen();
 	    exit(EXIT_SUCCESS);
 	}
     }
-    
+
+    if(!duration)
+	duration = INF;
 
     daemonize();
 
@@ -166,15 +171,13 @@ int main(int argc,char *argv[]) {
     gtk_init(&argc, &argv);
     gtk_window_set_default_icon_name (APP_LOGO);
     
+    init_notification();
+    init_notification_handler();
+    struct notification_data *d = new_notification_data(title,body,period,duration);
 
-    
-    int iret = pthread_create( &timer, NULL,&start_timer,NULL );
-     if(iret)
-     {
-         close_program(EXIT_FAILURE);
-     }
+    add_new_notification(d);
 
-     intiate_tray_icon(title,system_tray_callback);
+    intiate_tray_icon(title,system_tray_callback);
 
     
     gtk_main();
