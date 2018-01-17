@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS= -c -Wall `pkg-config --cflags libnotify gtk+-3.0 appindicator3-0.1`
 LDFLAGS= -pthread `pkg-config  --libs libnotify gtk+-3.0 appindicator3-0.1`
-SOURCES= menu_tray.c focus.c notify.c notify_handler.c
+SOURCES= menu_tray.c focus.c notification.c notification_handler.c
 OBJECTS=$(SOURCES:.c=.o)
 EXECUTABLE=focus
 

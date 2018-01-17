@@ -1,4 +1,4 @@
-#include "notify.h"
+#include "notification.h"
 #include <libnotify/notify.h>
 #include "config.h"
 #include <stdlib.h>

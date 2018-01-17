@@ -1,5 +1,5 @@
-#include "notify_handler.h"
-#include "notify.h"
+#include "notification_handler.h"
+#include "notification.h"
 #include <stdlib.h>
 #include <unistd.h>
 #include <signal.h>

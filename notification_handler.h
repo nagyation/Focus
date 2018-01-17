@@ -1,5 +1,5 @@
-#ifndef  __FOCUS_NOTIFY_HANDLER__
-#define  __FOCUS_NOTIFY_HANDLER__
+#ifndef  __FOCUS_NOTIFICATION_HANDLER__
+#define  __FOCUS_NOTIFICATOIN_HANDLER__
 
 
 struct notification_data{

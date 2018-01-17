@@ -8,8 +8,8 @@
 #include <limits.h>
 #include "menu_tray.h"
 #include "config.h"
-#include "notify.h"
-#include "notify_handler.h"
+#include "notification.h"
+#include "notification_handler.h"
 
 #define CMP_ZERO(A,B)   A? A:B
 #define CMP_STR(A,B)  !strncmp(A,B,2)

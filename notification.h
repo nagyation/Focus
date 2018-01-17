@@ -1,5 +1,5 @@
-#ifndef __FOCUS_NOTIFY__
-#define __FOCUS_NOTIFY__
+#ifndef __FOCUS_NOTIFICATION__
+#define __FOCUS_NOTIFICATION__
 
 
 void init_notification();
