@@ -1,5 +1,5 @@
-#include "focus_notifyhandler.h"
-#include "focus_notify.h"
+#include "notify_handler.h"
+#include "notify.h"
 #include <stdlib.h>
 #include <unistd.h>
 #include <signal.h>
@@ -7,8 +7,8 @@
 #include "string.h"
 
 void _notification_handler(int);
-void update_period_list(int time);
-int get_min_period();
+void _update_period_list(int time);
+int _get_min_period();
 
 
 struct notification_node{
@@ -19,10 +19,11 @@ struct notification_node{
 
 struct notification_node * head = NULL;
 
-
+int last_period;
 
 void init_notification_handler()
 {
+    last_period =0;
     signal(SIGALRM, _notification_handler);
 }
 
@@ -44,14 +45,25 @@ void add_new_notification(struct notification_data* data)
     t->next = head;
     t->notify_data->cperiod =0;
     print_log("Adding New notification\n");
-    update_period_list(alarm(0)); //get the last alarm duration took
+    _update_period_list(alarm(0)); //get the last alarm duration took
     head = t;
     print_log("Getting min period and setting alarm\n");
-    printf("Min period is %d\n", get_min_period());
-    alarm(get_min_period()); // set the new alarm with the min period
+    printf("Min period is %d\n", _get_min_period());
+    alarm(_get_min_period()); // set the new alarm with the min period
 }
 
-void remove_notification(struct notification_node *p)
+void pause_notification_handler()
+{
+    last_period = alarm(0); // save the last_period and pause
+}
+
+void resume_notification_handler()
+{
+    if(!last_period)
+	alarm(last_period);
+}
+
+void _remove_notification(struct notification_node *p)
 {
     struct notification_node *t;
     char ex[] = " -- Finished";
@@ -73,10 +85,11 @@ void remove_notification(struct notification_node *p)
 	head =NULL;
     else
 	p->next = p->next->next;
-    free(t);
+   free(t);
+   free(title);
 }
 
-void update_period_list(int time)
+void _update_period_list(int time)
 {
 
     struct notification_node *trail,*t = head;
@@ -97,14 +110,14 @@ void update_period_list(int time)
 	}
 	printf("Duration left %d \n",t->notify_data->duration);
 	if(!t->notify_data->duration)
-	    remove_notification(trail);
+	    _remove_notification(trail);
 	
 	trail =t;
 	t = t->next;
     }
 }
 
-int get_min_period()
+int _get_min_period()
 {
     if(!head)
 	return 0;
@@ -123,7 +136,7 @@ int get_min_period()
 
 void _notification_handler(int signal)
 {
-    update_period_list(get_min_period());
-    alarm(get_min_period());
+    _update_period_list(_get_min_period());
+    alarm(_get_min_period());
 }
 

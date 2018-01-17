@@ -6,10 +6,10 @@
 #include <sys/stat.h>
 #include <pthread.h>
 #include <limits.h>
-#include "focus_tray.h"
-#include "focus_config.h"
-#include "focus_notify.h"
-#include "focus_notifyhandler.h"
+#include "menu_tray.h"
+#include "config.h"
+#include "notify.h"
+#include "notify_handler.h"
 
 #define CMP_ZERO(A,B)   A? A:B
 #define CMP_STR(A,B)  !strncmp(A,B,2)
@@ -81,19 +81,6 @@ void close_program(int signal){
     exit(signal);
 }
 
-static void *start_timer(void *n){
-
-    while(1){
-        show_notification(title,body);
-	sleep(period);
-	if((period_counter * period) >= duration && duration)
-	    close_program(EXIT_SUCCESS);
-	if (duration)
-	    period_counter ++;
-    }
-    return 0;
-}
-
 
 void signal_callback(int signal)
 {
@@ -111,16 +98,12 @@ void system_tray_callback(int action)
     else if(action == TRAY_PAUSE)
     {
 	show_notification("Okay okay ..", "I'll Pause");
-	pthread_cancel(timer);
+	pause_notification_handler();
     }
     else if(action == TRAY_UNPAUSE)
     {
-	int ret = pthread_create( &timer, NULL,&start_timer,NULL );
-     if(ret)
-     {
-	 show_notification ("Sorry", "Couldn't unpause please try again ://");
-	pthread_cancel(timer);
-     }
+	show_notification("Hello, I'm back", "Resumed");
+        resume_notification_handler();
     }
 }
 
@@ -178,7 +161,7 @@ int main(int argc,char *argv[]) {
     add_new_notification(d);
 
     intiate_tray_icon(title,system_tray_callback);
-
     
     gtk_main();
+    free(d);
 }

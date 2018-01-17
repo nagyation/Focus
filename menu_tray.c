@@ -1,5 +1,5 @@
-#include "focus_tray.h"
-#include "focus_config.h"
+#include "menu_tray.h"
+#include "config.h"
 
 
 void (*onclick_callback) (int);

@@ -1,5 +1,5 @@
-#ifndef __FOCUS_TRAY__
-#define __FOCUS_TRAY__
+#ifndef __FOCUS_MENU_TRAY__
+#define __FOCUS_MENU_TRAY__
 
 #include <gtk/gtk.h>
 #include <libappindicator/app-indicator.h>

@@ -1,4 +1,7 @@
-#include "focus_notify.h"
+#include "notify.h"
+#include <libnotify/notify.h>
+#include "config.h"
+#include <stdlib.h>
 
 
 
