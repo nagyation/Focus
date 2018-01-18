@@ -1,13 +1,11 @@
 #ifndef __FOCUS_LOG__
 #define __FOCUS_LOG__
 
-#include <stdio.h>
+#include <syslog.h>
 
-void print_log(char *text)
-{
-    FILE *f = fopen("/home/nagy/workspace/Focus/log.txt","a");
-    fprintf(f,text);
-    fclose(f);
-}
+#define logerr( ...)  syslog(LOG_ERR | LOG_USER, __VA_ARGS__)
+#define logwarn( ...) syslog(LOG_WARN | LOG_USER, __VA_ARGS__)
+#define loginfo( ...) syslog(LOG_INFO | LOG_USER, __VA_ARGS__)
+#define logdbg( ...)  syslog(LOG_DEBUG | LOG_USER, __VA_ARGS__)
 
 #endif
