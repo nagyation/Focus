@@ -9,7 +9,7 @@
 void _notification_handler(int);
 void _update_period_list(int time);
 int _get_min_period();
-
+void _free_list();
 
 struct notification_node{
   struct notification_data * notify_data;
@@ -62,6 +62,22 @@ void resume_notification_handler()
     alarm(last_period);
 }
 
+void uninit_notification_handler()
+{
+  _free_list();
+}
+
+void _free_list()
+{
+  struct notification_node *tmp;
+  while(head != NULL)
+    {
+      tmp = head;
+      head = head->next;
+      free(tmp);
+    }
+  
+}
 void _remove_notification(struct notification_node *p)
 {
   struct notification_node *t;

@@ -11,12 +11,11 @@
 #include "notification.h"
 #include "notification_handler.h"
 
-#define CMP_ZERO(A,B)   A? A:B
-#define CMP_STR(A,B)  !strncmp(A,B,2)
+#define CHECK_ZERO(A,B)   A > 0? A:B
+#define CMP_ARG(A,B)  !strncmp(A,B,2)
 #define MINS 60
 #define HOURS 60 * MINS
 #define INF INT_MAX
-
 unsigned int period = 10 * MINS;
 unsigned int duration = 0;
 char *body= "Focus!";
@@ -93,6 +92,7 @@ void system_tray_callback(int action)
     close_program(EXIT_SUCCESS);
   else if(action == TRAY_CLICKED)
     {
+      
       show_notification ("Stop Clicking on me it hurts :\\ ", "Focus!");
     }
   else if(action == TRAY_PAUSE)
@@ -125,22 +125,22 @@ int main(int argc,char *argv[]) {
   //checking for argumets
   for(i = 1;i < argc ; i++)
     {
-      if(CMP_STR(argv[i],"-t"))
+      if(CMP_ARG(argv[i],"-t"))
         title = i+1 < argc ? argv[i+1] : title;
-      else if (CMP_STR(argv[i],"-b"))
+      else if (CMP_ARG(argv[i],"-b"))
         body = i+1 < argc ? argv[i+1] : body;
-      else if (CMP_STR(argv[i],"-p"))
-        period = CMP_ZERO(atoi(argv[i+1])*MINS,period);
-      else if (CMP_STR(argv[i],"-d"))
-        duration = atoi(argv[i+1]) *HOURS;
-      else if (CMP_STR(argv[i],"-h"))
+      else if (CMP_ARG(argv[i],"-p"))
+        period = CHECK_ZERO((atoi(argv[i+1]) * MINS),period);
+      else if (CMP_ARG(argv[i],"-d"))
+        duration = atoi(argv[i+1]) * HOURS;
+      else if (CMP_ARG(argv[i],"-h"))
         {
           help_screen();
           exit(EXIT_SUCCESS);
         }
     }
 
-  if(!duration)
+  if(!duration) // if it's zero make it infinity
     duration = INF;
 
   daemonize();
@@ -163,5 +163,6 @@ int main(int argc,char *argv[]) {
   intiate_tray_icon(title,system_tray_callback);
     
   gtk_main();
-  free(d);
+  uninit_notification();
+  uninit_notification_handler();
 }

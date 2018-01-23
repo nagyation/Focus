@@ -17,4 +17,5 @@ struct notification_data * new_notification_data(char * title,
 						 char * body, int period, int duration);
 void pause_notification_handler();
 void resume_notification_handler();
+void uninit_notification_handler();
 #endif
