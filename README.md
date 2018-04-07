@@ -11,12 +11,12 @@ https://aur.archlinux.org/packages/focus-git/
 <br>
  
  **Fedora:** <br>
-`yum install libnotify-devel libappindicator-gtk3-devel gtk3-devel`
+`yum install libnotify-devel libappindicator-gtk3-devel gtk3-devel gsound-devel`
 <br>
 
 
 **Ubuntu:** <br>
-`sudo apt-get install libnotify-dev libgtk-3-dev libappindicator3-dev`
+`sudo apt-get install libnotify-dev libgtk-3-dev libappindicator3-dev libgsound-dev`
 
 
 
