@@ -6,8 +6,7 @@ A very simple program that runs as a daemon reminds you -by a notification- of w
 you can install it by: <br>
 
 **Arch:** <br>
-For arch it can be installed from AUR <br>
-https://aur.archlinux.org/packages/focus-git/
+`sudo pacman -S libnotify libappindicator-gtk3 gtk3 gsound`
 <br>
  
  **Fedora:** <br>
