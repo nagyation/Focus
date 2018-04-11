@@ -27,17 +27,6 @@ void init_notification_handler()
   signal(SIGALRM, _notification_handler);
 }
 
-struct notification_data * new_notification_data(char * title,
-                                                 char * body, int period, int duration)
-{
-  struct notification_data * d = malloc(sizeof(struct notification_data));
-  d->title = title;
-  d->body = body;
-  d->period = period;
-  d->duration = duration;
-  return d;
-}
-
 void add_new_notification(struct notification_data* data)
 {
   struct notification_node *t = malloc(sizeof(struct notification_node));
