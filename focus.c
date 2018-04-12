@@ -126,8 +126,7 @@ int main(int argc,char *argv[]) {
   {
       if(!duration) // if it's zero make it infinity
 	  duration = INF;
-      struct notification_data *d = new_notification_data(title,body,period,duration);
       
-      add_new_notification(d);
+      add_new_notification(title, body, period, duration);
   }
 }

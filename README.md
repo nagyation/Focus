@@ -6,17 +6,16 @@ A very simple program that runs as a daemon reminds you -by a notification- of w
 you can install it by: <br>
 
 **Arch:** <br>
-For arch it can be installed from AUR <br>
-https://aur.archlinux.org/packages/focus-git/
+`sudo pacman -S libnotify libappindicator-gtk3 gtk3 gsound`
 <br>
  
  **Fedora:** <br>
-`yum install libnotify-devel libappindicator-gtk3-devel gtk3-devel`
+`yum install libnotify-devel libappindicator-gtk3-devel gtk3-devel gsound-devel`
 <br>
 
 
 **Ubuntu:** <br>
-`sudo apt-get install libnotify-dev libgtk-3-dev libappindicator3-dev`
+`sudo apt-get install libnotify-dev libgtk-3-dev libappindicator3-dev libgsound-dev`
 
 
 
