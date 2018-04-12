@@ -156,9 +156,8 @@ int main(int argc,char *argv[]) {
     
   init_notification();
   init_notification_handler();
-  struct notification_data *d = new_notification_data(title,body,period,duration);
 
-  add_new_notification(d);
+  add_new_notification(title, body, period, duration);
 
   intiate_tray_icon(title,system_tray_callback);
     

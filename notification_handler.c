@@ -11,6 +11,14 @@ void _update_period_list(int time);
 int _get_min_period();
 void _free_list();
 
+struct notification_data{
+    char * title;
+    char * body;
+    int duration;
+    int period;
+    int cperiod;
+};
+
 struct notification_node{
   struct notification_data * notify_data;
   struct notification_node * next;
@@ -27,21 +35,16 @@ void init_notification_handler()
   signal(SIGALRM, _notification_handler);
 }
 
-struct notification_data * new_notification_data(char * title,
-                                                 char * body, int period, int duration)
-{
-  struct notification_data * d = malloc(sizeof(struct notification_data));
-  d->title = title;
-  d->body = body;
-  d->period = period;
-  d->duration = duration;
-  return d;
-}
-
-void add_new_notification(struct notification_data* data)
+void add_new_notification(char * title, char * body,
+                          int period, int duration)
 {
   struct notification_node *t = malloc(sizeof(struct notification_node));
-  t->notify_data = data;
+  t->notify_data = &(struct notification_data) {
+    .title = title,
+    .body = body,
+    .period = period,
+    .duration = duration
+  };
   t->next = head;
   t->notify_data->cperiod =0;
   loginfo("Adding New notification\n");
