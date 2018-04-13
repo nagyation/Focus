@@ -20,7 +20,7 @@ struct notification_data{
 };
 
 struct notification_node{
-  struct notification_data * notify_data;
+  struct notification_data notify_data;
   struct notification_node * next;
 };
 
@@ -39,14 +39,14 @@ void add_new_notification(char * title, char * body,
                           int period, int duration)
 {
   struct notification_node *t = malloc(sizeof(struct notification_node));
-  t->notify_data = &(struct notification_data) {
+  t->notify_data = (struct notification_data) {
     .title = title,
     .body = body,
     .period = period,
-    .duration = duration
+    .duration = duration,
+    .cperiod = 0
   };
   t->next = head;
-  t->notify_data->cperiod =0;
   loginfo("Adding New notification\n");
   _update_period_list(alarm(0)); //get the last alarm duration took
   head = t;
@@ -91,10 +91,10 @@ void _remove_notification(struct notification_node *p)
   else
     t = p->next;
   
-  char *title = malloc(strlen(t->notify_data->title) + strlen(ex) + 1);
-  strcpy(title,t->notify_data->title);
+  char *title = malloc(strlen(t->notify_data.title) + strlen(ex) + 1);
+  strcpy(title,t->notify_data.title);
   strcat(title,ex);
-  show_notification(title,t->notify_data->body);
+  show_notification(title,t->notify_data.body);
   loginfo("Stopped Task\n");
     
   if(p == head)
@@ -112,20 +112,20 @@ void _update_period_list(int time)
   trail = head;
   while(t !=NULL)
     {
-      t->notify_data->duration -= time;
+      t->notify_data.duration -= time;
       loginfo("time spent in alarm is %d\n", time);
-      t->notify_data->cperiod +=time;
-      logdbg("cperiod = %d\n",t->notify_data->cperiod);
-      if(t->notify_data->cperiod
+      t->notify_data.cperiod +=time;
+      logdbg(" %s cperiod = %d\n",t->notify_data.title, t->notify_data.cperiod);
+      if(t->notify_data.cperiod
          >=
-         t->notify_data->period)
+         t->notify_data.period)
         {
-          show_notification(t->notify_data->title,
-                            t->notify_data->body);
-          t->notify_data->cperiod = 0;
+          show_notification(t->notify_data.title,
+                            t->notify_data.body);
+          t->notify_data.cperiod = 0;
         }
-      logdbg("Duration left %d \n",t->notify_data->duration);
-      if(!t->notify_data->duration)
+      logdbg("Duration left %d \n",t->notify_data.duration);
+      if(!t->notify_data.duration)
         _remove_notification(trail);
 	
       trail =t;
@@ -138,12 +138,12 @@ int _get_min_period()
   if(!head)
     return 0;
   struct notification_node *t = head;
-  int min_period = head->notify_data->period;
+  int min_period = head->notify_data.period - head->notify_data.cperiod;
   while(t !=NULL)
     {
-      if(min_period >= t->notify_data->period)
+      if(min_period >= t->notify_data.period - t->notify_data.cperiod)
         min_period =
-          t->notify_data->period < t->notify_data->duration? t->notify_data->period : t->notify_data->duration;
+          t->notify_data.period - t->notify_data.cperiod < t->notify_data.duration? t->notify_data.period - t->notify_data.cperiod : t->notify_data.duration;
       t = t->next;
     }
   return min_period;
