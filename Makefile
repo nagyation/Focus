@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS= -c -Wall `pkg-config --cflags libnotify gtk+-3.0 appindicator3-0.1`
 LDFLAGS= -pthread `pkg-config  --libs libnotify gtk+-3.0 appindicator3-0.1 gsound glib-2.0`
-SOURCES= menu_tray.c focus.c notification.c notification_handler.c
+SOURCES= menu_tray.c focus.c notification.c notification_handler.c communication_handler.c
 OBJECTS=$(SOURCES:.c=.o)
 EXECUTABLE=focus
 
@@ -29,6 +29,7 @@ install: all
 	install -t $(icon_dir)/scalable/apps/ icons/focus-icon.svg
 	install -d $(sound_dir)
 	install -t $(sound_dir)  sounds/to-the-point.ogg
+	install -t /usr/lib/systemd/system/ focus.service
 	$(gtk_update_icon_cache);
 
 clean:

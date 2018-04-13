@@ -6,16 +6,21 @@
 #include <sys/stat.h>
 #include <pthread.h>
 #include <limits.h>
+
 #include "menu_tray.h"
 #include "config.h"
 #include "notification.h"
 #include "notification_handler.h"
+#include "log.h"
+#include "communication_handler.h"
+
 
 #define CHECK_ZERO(A,B)   A > 0? A:B
 #define CMP_ARG(A,B)  !strncmp(A,B,2)
 #define MINS 60
 #define HOURS 60 * MINS
 #define INF INT_MAX
+
 unsigned int period = 10 * MINS;
 unsigned int duration = 0;
 char *body= "Focus!";
@@ -72,7 +77,7 @@ int main(int argc,char *argv[]) {
 
   if (argc < 2) // checking if no arguments sent
     {
-      printf("This is the default mode\n");
+      printf("Default mode\n");
       help_screen();
     }
   
@@ -98,6 +103,7 @@ int main(int argc,char *argv[]) {
       else if(CMP_ARG(argv[i],"-s"))
       {
 	  service = 1;
+	  logdbg("-S arguemnt found");
       }
     }
 
@@ -105,6 +111,7 @@ int main(int argc,char *argv[]) {
 
   if(service)
   {
+      logdbg("Started as a service");
       //recieve Terminate signals from kill
       signal(SIGINT, signal_callback);
       signal(SIGTERM, signal_callback);
@@ -120,13 +127,39 @@ int main(int argc,char *argv[]) {
       
       init_notification();
       init_notification_handler();
-      gtk_main();
+
+      if(init_communication() == -1)
+      {
+	  logerr("Error init communication");
+	  close_program(EXIT_FAILURE);
+      }
+      while(1) //serve forever
+      {
+	  int cmd = read_cmd();
+	  logdbg("CMD recieved %d",cmd);
+	  switch(cmd)
+	  {
+	  case CMD_ADD:
+	      title = read_text();
+	      body = read_text();
+	      period = read_num();
+	      duration = read_num();
+	      logdbg("recieved notification : %s , %s , %d , %d",
+		     title,body,period,duration);
+	      add_new_notification(title, body, period, duration);
+	      break;
+	  default:
+	      logerr("Wrong cmd recieved");
+	      break;
+	  }
+      }
   }
   else
   {
       if(!duration) // if it's zero make it infinity
 	  duration = INF;
-      
-      add_new_notification(title, body, period, duration);
+
+      printf("%s , %s, %d, %d \n" , title, body,period,duration);
+      send_notification(title,body,period,duration);
   }
 }

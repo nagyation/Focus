@@ -1,0 +1,9 @@
+[Unit]
+Description=Focus notifies you of a word or task periodically to keep focus 
+
+[Service]
+ExecStart=/usr/local/bin/focus -s
+StandardOutput=null
+
+[Install]
+WantedBy=multi-user.target
